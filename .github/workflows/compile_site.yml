@@ -27,13 +27,12 @@ jobs:
       - name: Copy files to site and add layout
         run: |
             IFS=';' read -ra input_array <<< "${{ env.INPUT_FOLDERS }}"
-            if ![[ -d "app/index/" ]]
-            then
+            if [ ! -d "app/index/" ]; then
+                echo "could not find entries dir"
                 mkdir app/index/
             fi
             for dir in "${input_array[@]}"; do
-              if ![[ -d "app/index/_${dir}" ]]
-              then
+              if [ ! -d "app/index/_${dir}" ]; then
                   echo "could not find entries dir"
                   mkdir app/index/_${dir}/
               fi
@@ -49,7 +48,7 @@ jobs:
             git pull
             git config user.name github-actions
             git config user.email github-actions@github.com
-            git add app/**.md
+            git add app/**
             git commit -m "compiled site after edit to markdown files"
             git push
 
