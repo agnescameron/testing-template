@@ -59,7 +59,7 @@ jobs:
           while IFS= read -r file
           do
             echo "$file"
-            if [[ $file == *.csv ]] || [[ $file == *.md ]]; then
+            if [[ $file == *.csv ]] || [[ $file == *.md ]] || [[ $file == "$ARCHIVE_DIR"/* ]] || [[ $file == "$FILES_DIR"/* ]];; then
               echo "updated files"
               echo "::set-output name=commit_files::true"
             fi
