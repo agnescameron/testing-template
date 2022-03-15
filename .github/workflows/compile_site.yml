@@ -27,16 +27,16 @@ jobs:
       - name: Copy files to site and add layout
         run: |
             IFS=';' read -ra input_array <<< "${{ env.INPUT_FOLDERS }}"
-            for dir in "${input_array[@]}"; do
             if ![[ -d "app/index/" ]]
             then
                 mkdir app/index/
-                mkdir app/index/_${dir}/
             fi
-            if ![[ -d "app/index/_${dir}" ]]
-            then
-                mkdir app/index/_${dir}/
-            fi
+            for dir in "${input_array[@]}"; do
+              if ![[ -d "app/index/_${dir}" ]]
+              then
+                  echo "could not find entries dir"
+                  mkdir app/index/_${dir}/
+              fi
               cp -r ${dir}/* app/index/_${dir}/
               for file in app/index/_${dir}/*.md; do
                 sed -i '2s/^/layout\: default\n/;' $file
